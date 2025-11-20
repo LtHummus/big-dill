@@ -116,7 +116,11 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("/socket_url", func(w http.ResponseWriter, r *http.Request) {
-		socketURL := fmt.Sprintf("ws://%s/socket", r.Host)
+		protocol := "ws"
+		if r.Proto == "https" {
+			protocol = "wss"
+		}
+		socketURL := fmt.Sprintf("%s://%s/socket", protocol, r.Host)
 
 		w.Header().Add("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(map[string]any{
