@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="pico.green.min.css">
+        <style>
+            #vote_panel > div + div {
+                margin-top: 2rem;
+            }
+        </style>
+        <title>I'm Kind Of a Big Dill</title>
+    </head>
+    <body>
+        <main class="container">
+            <h1>Are they a big dill?</h1>
+            <div id="i_voted_panel" style="display: none">
+                <img src="/Katie_Fish_IVotedSticker_Eng.png" alt="I Voted Sticker" />
+            </div>
+
+            <div id="vote_closed_panel" style="display: none">
+                <h3>Voting is currently closed</h3>
+            </div>
+
+            <div id="vote_panel" style="display: none">
+                <div role="button" onclick='submitVote("-3")'>
+                    -3 (Worse)
+                </div>
+                <div role="button" onclick='submitVote("-2")'>
+                    -2
+                </div>
+                <div role="button" onclick='submitVote("-1")'>
+                    -1
+                </div>
+                <div role="button" onclick='submitVote("0")'>
+                    0 (Truthful)
+                </div>
+                <div role="button" onclick='submitVote("1")'>
+                    1
+                </div>
+                <div role="button" onclick='submitVote("2")'>
+                    2
+                </div>
+                <div role="button" onclick='submitVote("3")'>
+                    3 (Better)
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <h6 id="connect_status" style="position: absolute; bottom: 10px; right: 10px; display: none">Connected to the vote server</h6>
+        </footer>
+        <script src="dill.js"></script>
+    </body>
+</html>
