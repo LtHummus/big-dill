@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="pico.green.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>I'm Kind Of a Big Dill</title>
+</head>
+<body>
+    <main class="container">
+        <h1>Are they a big dill?</h1>
+
+        <div>
+            <canvas id="results"></canvas>
+        </div>
+    </main>
+    <script>
+        const ctx = document.getElementById('results');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['-3', '-2', '-1', '0', '1', '2', '3'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: {{ .ResultArray }},
+                    backgroundColor: [
+                        'rgba(237, 255, 233, 1)',
+                        'rgba(185, 255, 166, 1)',
+                        'rgba(164, 255, 140, 1)',
+                        'rgba(142, 255, 112, 1)',
+                        'rgba(116, 255, 80, 1)',
+                        'rgba(85, 255, 41, 1)',
+                        'rgba(53, 255, 0, 1)'
+                    ],
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            font: {
+                                size: 24
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 24
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            precision: 0,
+                            font: {
+                                size: 24
+                            }
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
