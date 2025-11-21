@@ -5,6 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="pico.green.min.css">
+        <style>
+            #vote_panel > div + div {
+                margin-top: 2rem;
+            }
+        </style>
         <title>I'm Kind Of a Big Dill</title>
     </head>
     <body>
@@ -19,28 +24,26 @@
             </div>
 
             <div id="vote_panel" style="display: none">
-                <div class="grid">
-                    <div role="button" onclick='submitVote("-3")'>
-                        -3
-                    </div>
-                    <div role="button" onclick='submitVote("-2")'>
-                        -2
-                    </div>
-                    <div role="button" onclick='submitVote("-1")'>
-                        -1
-                    </div>
-                    <div role="button" onclick='submitVote("0")'>
-                        0
-                    </div>
-                    <div role="button" onclick='submitVote("1")'>
-                        1
-                    </div>
-                    <div role="button" onclick='submitVote("2")'>
-                        2
-                    </div>
-                    <div role="button" onclick='submitVote("3")'>
-                        3
-                    </div>
+                <div role="button" onclick='submitVote("-3")'>
+                    -3 (Worse)
+                </div>
+                <div role="button" onclick='submitVote("-2")'>
+                    -2
+                </div>
+                <div role="button" onclick='submitVote("-1")'>
+                    -1
+                </div>
+                <div role="button" onclick='submitVote("0")'>
+                    0 (Truthful)
+                </div>
+                <div role="button" onclick='submitVote("1")'>
+                    1
+                </div>
+                <div role="button" onclick='submitVote("2")'>
+                    2
+                </div>
+                <div role="button" onclick='submitVote("3")'>
+                    3 (Better)
                 </div>
             </div>
         </main>

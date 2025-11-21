@@ -81,6 +81,17 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("GET /resultpage", func(w http.ResponseWriter, r *http.Request) {
+		pwd, err := r.Cookie("pwd")
+		if err != nil {
+			http.Error(w, "no", http.StatusForbidden)
+			return
+		}
+
+		if pwd.Value != token {
+			http.Error(w, "no", http.StatusForbidden)
+			return
+		}
+
 		v := s.surveyor.GetVotes()
 		resultArray := []int{
 			v["-3"],
@@ -98,8 +109,13 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("POST /vote_open", func(w http.ResponseWriter, r *http.Request) {
-		tokenHeaderContents := r.Header.Get("X-Token")
-		if tokenHeaderContents != token {
+		pwd, err := r.Cookie("pwd")
+		if err != nil {
+			http.Error(w, "no", http.StatusForbidden)
+			return
+		}
+
+		if pwd.Value != token {
 			http.Error(w, "no", http.StatusForbidden)
 			return
 		}
@@ -107,8 +123,13 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("POST /vote_close", func(w http.ResponseWriter, r *http.Request) {
-		tokenHeaderContents := r.Header.Get("X-Token")
-		if tokenHeaderContents != token {
+		pwd, err := r.Cookie("pwd")
+		if err != nil {
+			http.Error(w, "no", http.StatusForbidden)
+			return
+		}
+
+		if pwd.Value != token {
 			http.Error(w, "no", http.StatusForbidden)
 			return
 		}
@@ -117,7 +138,7 @@ func New() *Server {
 
 	s.mux.HandleFunc("/socket_url", func(w http.ResponseWriter, r *http.Request) {
 		protocol := "ws"
-		if r.Proto == "https" {
+		if r.Header.Get("X-Forwarded-Proto") == "https" {
 			protocol = "wss"
 		}
 		socketURL := fmt.Sprintf("%s://%s/socket", protocol, r.Host)
