@@ -81,13 +81,7 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("GET /resultpage", func(w http.ResponseWriter, r *http.Request) {
-		pwd, err := r.Cookie("pwd")
-		if err != nil {
-			http.Error(w, "no", http.StatusForbidden)
-			return
-		}
-
-		if pwd.Value != token {
+		if !hasValidAuth(r) {
 			http.Error(w, "no", http.StatusForbidden)
 			return
 		}
@@ -109,13 +103,7 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("POST /vote_open", func(w http.ResponseWriter, r *http.Request) {
-		pwd, err := r.Cookie("pwd")
-		if err != nil {
-			http.Error(w, "no", http.StatusForbidden)
-			return
-		}
-
-		if pwd.Value != token {
+		if !hasValidAuth(r) {
 			http.Error(w, "no", http.StatusForbidden)
 			return
 		}
@@ -123,13 +111,7 @@ func New() *Server {
 	})
 
 	s.mux.HandleFunc("POST /vote_close", func(w http.ResponseWriter, r *http.Request) {
-		pwd, err := r.Cookie("pwd")
-		if err != nil {
-			http.Error(w, "no", http.StatusForbidden)
-			return
-		}
-
-		if pwd.Value != token {
+		if !hasValidAuth(r) {
 			http.Error(w, "no", http.StatusForbidden)
 			return
 		}
@@ -156,6 +138,19 @@ func New() *Server {
 	s.mux.Handle("/", http.FileServer(http.FS(fileContents)))
 
 	return s
+}
+
+func hasValidAuth(r *http.Request) bool {
+	if r.Header.Get("X-Token") == token {
+		return true
+	}
+
+	pwd, err := r.Cookie("pwd")
+	if err != nil {
+		return false
+	}
+
+	return pwd.Value == token
 }
 
 func (s *Server) ListenAndServe() {

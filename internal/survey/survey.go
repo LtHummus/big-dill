@@ -71,6 +71,7 @@ func (s *Surveyor) OpenVote() {
 	}
 	s.ResetVotes()
 	s.votesOpen = true
+	log.Info().Msg("opening vote")
 	go s.onVoteStatusChange(true)
 }
 
@@ -79,6 +80,7 @@ func (s *Surveyor) CloseVote() {
 		return
 	}
 	s.votesOpen = false
+	log.Info().Msg("closing vote")
 	go s.onVoteStatusChange(false)
 }
 
@@ -97,6 +99,7 @@ func (s *Surveyor) ResetVotes() {
 	for k := range validVotes {
 		s.votes[k] = 0
 	}
+	log.Info().Msg("resetting vote")
 }
 
 func (s *Surveyor) SubmitVote(vote string, voteKey string) error {
