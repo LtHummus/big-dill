@@ -42,9 +42,9 @@ func (d *Dispatch) run() {
 			d.handleMessage(msg)
 		case client := <-d.DeregistrationRequests:
 			if _, ok := d.clients[client]; ok {
-				log.Info().Str("client_id", client.ID).Msg("deregistering client")
 				delete(d.clients, client)
 				close(client.Send)
+				log.Info().Str("client_id", client.ID).Int("num_clients", len(d.clients)).Msg("deregistering client")
 			}
 		case client := <-d.RegistrationRequests:
 			d.clients[client] = struct{}{}
@@ -54,6 +54,7 @@ func (d *Dispatch) run() {
 					"client_id": client.ID,
 				},
 			}
+			log.Info().Str("client_id", client.ID).Int("num_clients", len(d.clients)).Msg("registering client")
 			payload, _ := json.Marshal(successMessage)
 			client.Send <- payload
 		}
